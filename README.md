@@ -8,26 +8,38 @@ Provides below browser details
   - Source i.e. how properties were found, using 'browscap.ini' or 'HTTP_USER_AGENT'
 
 # How to run
+--------------------
 Extract/paste browser.php in any folder inside your document root.
+
 Include it in your PHP file (example : include_once 'browser.php'; )
+
 Refer below sample function calls and output format
 --------------------
  1. array format
---------------------
+
+
 $browser_info=getBrowserProperties();
+
  OR
+
 $browser_info=getBrowserProperties('array');
-  Output:
-  array(
-  'browser name' => string 'Chrome' (length=6)
-  'browser version' => string '51.0' (length=4)
-  'platform' => string 'Win10' (length=5)
-  'device_type' => string 'Desktop' (length=7)
-  'src' => string 'browscap.ini/get_browser() PHP built-in function'
-  )
+
+Output:
+
+browser name = Chrome   
+
+browser version = 51.0
+
+platform = Win10
+
+device_type = Desktop
+
+src = browscap.ini/get_browser() PHP built-in function
+
 --------------------
  2. html format (returns a ul with id browlistprop)
---------------------
+
+<pre>
 $browser_info=getBrowserProperties('html');
   Output:
   <ul id='browlistprop'>
@@ -37,11 +49,11 @@ $browser_info=getBrowserProperties('html');
     <li>Device_type : <b>Desktop</b></li>
     <li>Src : <b>browscap.ini/get_browser() PHP Built-in Function</b></li>
   </ul>
-
+</pre>
 #Note:
-If browscap.ini is set in PHP config,
- value of "src" will be "browscap.ini/get_browser() PHP Built-in Function"
-else,
+If browscap.ini is set in PHP config,<br>
+ value of "src" will be "browscap.ini/get_browser() PHP Built-in Function"<br>
+else,<br>
  value of "src" will be "Regex with HTTP_USER_AGENT string"
 
 
