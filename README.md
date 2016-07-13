@@ -15,7 +15,8 @@ Extract/paste browser.php in any folder inside your document root.
 Include it in your PHP file (example : include_once 'browser.php'; )
 
 Refer below sample function calls and output format
---------------------
+
+
  1. array format
 --------------------
 
