@@ -36,7 +36,7 @@ Output:
     'src' => string 'browscap.ini/get_browser() PHP built-in function'
     )
 
---------------------
+
  2. html format (returns a ul with id browlistprop)
 --------------------
 
