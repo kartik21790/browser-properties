@@ -1,23 +1,22 @@
-<html>
 <?php
 //function to gather browser properties
 //it first checks whether browscap.ini directive is set or not
 //if it is set, it uses get_browser() function to gather info
 //if not set, it uses custom regex on HTTP_USER_AGENT string to gather info
-function getBrowserProperties()
+function getBrowserProperties($output="array")
 {
-	$browser_info=array("prop"=>null, "src"=>null);
+	$browser_info=array();
 	if(get_cfg_var('browscap')!==false)
 	{
 		$br_arr=get_browser();
 		
-		$browser_info["prop"]= array(
-				'browser name'      => $br_arr->browser,
-				'browser version'   => $br_arr->version,
-				'platform'  => $br_arr->platform,
-				'device_type' => $br_arr->device_type
+		$browser_info= array(
+				'browser name'      => ucwords($br_arr->browser),
+				'browser version'   => ucwords($br_arr->version),
+				'platform'  => ucwords($br_arr->platform),
+				'device_type' => ucwords($br_arr->device_type),
+				"src" => "browscap.ini/get_browser() PHP built-in function"
 		);
-		$browser_info["src"]="browscap.ini/get_browser() PHP built-in function";
 	}
 	else
 	{
@@ -117,33 +116,48 @@ function getBrowserProperties()
 		// check if we have a number
 		if ($version==null || $version=="") {$version="?";}
 		
-		$browser_info["prop"]= array(
-				'browser name'      => $bname,
-				'browser version'   => $version,
-				'platform'  => $platform,
-				'device_type' => $device_type
+		$browser_info= array(
+				'browser name'      => ucwords($bname),
+				'browser version'   => ucwords($version),
+				'platform'  => ucwords($platform),
+				'device_type' => ucwords($device_type),
+				'src' => 'Regex with HTTP_USER_AGENT string'
 		);
-		$browser_info["src"]='Regex with HTTP_USER_AGENT string';
 		
 	}
-	return $browser_info;
+
+	//prepare response
+	$response="";
+	switch($output)
+	{
+		case 'html':
+			// prepare HTML
+			$response="<ul id='browlistprop'>";
+			foreach($browser_info as $key=>$val)
+			{
+				$response .= "<li>".ucwords($key)." : <b>".$val."</b></li>";
+			}
+			$response.="</ul>";
+			break;
+		case 'array':
+			$response=$browser_info;
+			break;
+		default:
+			$response=$browser_info;
+			break;
+	}
+	return $response;
 }
 
-// function call
-$browser_info=getBrowserProperties();
-
-// prepare HTML
-$str="<ul id='browlist'>";
-foreach($browser_info["prop"] as $key=>$val)
-{
-	$str .= "<li>".ucwords($key)." : <b>".ucwords($val)."</b></li>";
-}
-$str.="</ul>";
-$str.="<div>Information found using : <b>".$browser_info["src"]."</b>";
-
-?>
-
-<h3>Browser Properties</h3>
-<?php echo $str;?>
-
-</html>
+// sample function calls
+// --------------------
+// 1. array format
+// --------------------
+// $browser_info=getBrowserProperties();
+// OR
+// $browser_info=getBrowserProperties('array');
+// --------------------
+// 2. html format (returns a ul with id browlistprop)
+// --------------------
+// $browser_info=getBrowserProperties('html');
+// --------------------
